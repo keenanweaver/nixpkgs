@@ -36657,6 +36657,8 @@ with pkgs;
 
   bsdgames = callPackage ../games/bsdgames { };
 
+  bstone = callPackage ../games/bstone { };
+
   btanks = callPackage ../games/btanks { };
 
   bugdom = callPackage ../games/bugdom {
