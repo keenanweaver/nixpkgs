@@ -36,16 +36,6 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Modern re-implementation of the classic DOS game Duke Nukem II";
     homepage = "https://github.com/lethal-guitar/RigelEngine";
     license = lib.licenses.gpl2Only;
-    longDescription = ''
-      RigelEngine requires the game data files to run. To extract them from the Zoom Platform installer, run:
-      ``` bash
-      nix-shell -p innoextract.out --run \
-      "innoextract /path/to/installer.exe \
-      -I 'NUKEM2.CMP' -I 'NUKEM2.F1' -I 'NUKEM2.F2' \
-      -I 'NUKEM2.F3' -I 'NUKEM2.F4' -I 'NUKEM2.F5' \
-      -d ~/Games/duke-nukem-ii"
-      ```
-    '';
     maintainers = with lib.maintainers; [ keenanweaver ];
     mainProgram = "RigelEngine";
     platforms = lib.platforms.all;
