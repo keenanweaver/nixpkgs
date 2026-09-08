@@ -17,6 +17,7 @@
   yyjson,
   discord-rpc,
   nix-update-script,
+  versionCheckHook,
   withDiscordRpc ? true,
 }:
 
@@ -53,11 +54,15 @@ stdenv.mkDerivation (finalAttrs: {
   ]
   ++ lib.optional withDiscordRpc discord-rpc;
 
+  __structuredAttrs = true;
   strictDeps = true;
 
   cmakeFlags = [
     (lib.cmakeBool "WITH_DISCORD_RPC" withDiscordRpc)
   ];
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   passthru.updateScript = nix-update-script {
     extraArgs = [
