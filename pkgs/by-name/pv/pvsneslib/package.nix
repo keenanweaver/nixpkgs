@@ -49,7 +49,6 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://github.com/alekmaul/pvsneslib/releases/tag/${finalAttrs.src.tag}";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ soyouzpanda ];
-    mainProgram = "pvsneslib";
     platforms = lib.platforms.all;
   };
 })
