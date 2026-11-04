@@ -3,6 +3,7 @@
   stdenv,
   fetchFromGitHub,
   cmake,
+  nix-update-script,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -42,6 +43,8 @@ stdenv.mkDerivation (finalAttrs: {
     cp -r . $out
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "Free and open source development kit for the Nintendo SNES";
