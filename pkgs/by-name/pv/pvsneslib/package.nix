@@ -42,11 +42,20 @@ stdenv.mkDerivation (finalAttrs: {
     export PVSNESLIB_HOME=$(pwd)
   '';
 
+  # Same layout as upstream's `make release`, plus bin/
   installPhase = ''
     runHook preInstall
-    cp -r . $out
+
+    mkdir -p $out/{bin,pvsneslib}
+    cp -r devkitsnes snes-examples vscode-template $out
+    cp -r pvsneslib/{include,lib,docs/html,PVSnesLib_Logo.png} $out/pvsneslib
+    cp pvsneslib/pvsneslib_{license,snesmod,version}.txt $out/pvsneslib
+    ln -s $out/devkitsnes/{bin,tools}/* $out/bin
+
     runHook postInstall
   '';
+
+  stripDebugList = [ "devkitsnes" ];
 
   passthru.updateScript = nix-update-script { };
 
