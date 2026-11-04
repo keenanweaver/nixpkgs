@@ -8,13 +8,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "pvsneslib";
-  version = "4.2.0";
+  version = "4.6.0";
 
   src = fetchFromGitHub {
     owner = "alekmaul";
     repo = "pvsneslib";
     tag = finalAttrs.version;
-    hash = "sha256-Cl4+WvjKbq5IPqf7ivVYwBYwDDWWHGNeq4nWXPxsUHw=";
+    hash = "sha256-e5R0/48kzaGCi8umgk4szILp1HG3IISKRf3kmmpc7vc=";
     fetchSubmodules = true;
   };
 
@@ -25,38 +25,13 @@ stdenv.mkDerivation (finalAttrs: {
 
   dontConfigure = true;
 
+  hardeningDisable = [ "format" ];
+
+  # nixpkgs has no static libc by default
   postPatch = ''
-    substituteInPlace compiler/wla-dx/CMakeLists.txt \
-      --replace-fail "cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)" "cmake_minimum_required(VERSION 3.10)"
-
-    substituteInPlace tools/816-opt/Makefile \
-      --replace-fail 'LDFLAGS := -lpthread' 'LDFLAGS :=' \
-      --replace-fail 'LDFLAGS := -pthread' 'LDFLAGS += -pthread' \
-      --replace-fail 'LDFLAGS += -lpthread -static' '# LDFLAGS += -lpthread -static'
-
-    substituteInPlace tools/bin2txt/Makefile \
-                                    tools/gfx2snes/Makefile \
-                                    tools/gfx4snes/Makefile \
-                                    tools/snestools/Makefile \
-                                    tools/816-opt/Makefile \
-                                    tools/tmx2snes/Makefile \
-      --replace-fail '$(CFLAGS) $(OBJS)' '$(LDFLAGS) $(OBJS)'
-
-    substituteInPlace tools/smconv/Makefile \
-      --replace-fail '$(CFLAGS) $(LDFLAGS)' '$(LDFLAGS)'
-
-    substituteInPlace tools/constify/Makefile \
-      --replace-fail '$(CFLAGS) $(DEFINES) $(OBJS)' '$(LDFLAGS) $(DEFINES) $(OBJS)'
-
-    substituteInPlace tools/snestools/Makefile \
-      --replace-fail '-Wno-format' ' '
-
-    substituteInPlace tools/snesbrr/brr/Makefile \
-      --replace-fail 'LDFLAGS ' 'LDFLAGS :=
-      LDFLAGS '
-
-    substituteInPlace compiler/wla-dx/wlalink/write.c \
-      --replace-fail 'sort_anonymous_labels()' 'sort_anonymous_labels(void)'
+    substituteInPlace tools/*/Makefile --replace-quiet '-static' ""
+    substituteInPlace tools/snesbrr/makeinclude \
+      --replace-fail '-static -static-libgcc -static-libstdc++ ' ""
   '';
 
   preBuild = ''
