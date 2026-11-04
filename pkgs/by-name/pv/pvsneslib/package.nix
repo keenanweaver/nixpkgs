@@ -3,6 +3,7 @@
   stdenv,
   fetchFromGitHub,
   cmake,
+  doxygen,
   nix-update-script,
 }:
 
@@ -28,7 +29,10 @@ stdenv.mkDerivation (finalAttrs: {
       --replace-fail '-static -static-libgcc -static-libstdc++ ' ""
   '';
 
-  nativeBuildInputs = [ cmake ];
+  nativeBuildInputs = [
+    cmake
+    doxygen
+  ];
 
   dontUseCmakeConfigure = true;
 
