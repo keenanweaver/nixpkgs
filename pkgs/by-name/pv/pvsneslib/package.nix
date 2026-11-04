@@ -4,6 +4,7 @@
   fetchFromGitHub,
   cmake,
   doxygen,
+  writeText,
   nix-update-script,
 }:
 
@@ -56,6 +57,11 @@ stdenv.mkDerivation (finalAttrs: {
   '';
 
   stripDebugList = [ "devkitsnes" ];
+
+  # They recommend setting this env var
+  setupHook = writeText "pvsneslib-setup-hook" ''
+    export PVSNESLIB_HOME=@out@
+  '';
 
   passthru.updateScript = nix-update-script { };
 
