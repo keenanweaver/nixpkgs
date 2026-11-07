@@ -13,11 +13,15 @@
   rustPlatform,
   tes3cmd,
   tr-patcher,
+  versionCheckHook,
+  writableTmpDirAsHomeHook,
   zstd,
 }:
 
-let
+python3Packages.buildPythonApplication (finalAttrs: {
+  pname = "portmod";
   version = "2.9.2";
+  pyproject = true;
 
   src = fetchFromGitLab {
     owner = "portmod";
@@ -26,47 +30,29 @@ let
     hash = "sha256-bnCyjHy3I5ETnfvkTGPEwVD5LtrvavU9AisFvQ942l8=";
   };
 
-  bin-programs = [
-    bubblewrap
-    git
-    python3Packages.virtualenv
-    tr-patcher
-    tes3cmd
-    imagemagick
-    openmw
-  ];
-
-in
-python3Packages.buildPythonApplication rec {
-  inherit src version;
-
-  pname = "portmod";
-  pyproject = true;
-
   cargoDeps = rustPlatform.fetchCargoVendor {
-    inherit pname src version;
+    inherit (finalAttrs) pname version src;
     hash = "sha256-KVs1LqwsfWaQb91mhlyKMAh0uDEDDAJHsUSLMIfJq18=";
   };
 
-  nativeBuildInputs =
-    with python3Packages;
-    [
-      setuptools
-      setuptools-rust
-      wheel
-    ]
-    ++ [
-      cargo
-      pkg-config
-      rustc
-      rustPlatform.cargoSetupHook
-    ];
+  build-system = with python3Packages; [
+    setuptools
+    setuptools-rust
+    wheel
+  ];
+
+  nativeBuildInputs = [
+    cargo
+    pkg-config
+    rustc
+    rustPlatform.cargoSetupHook
+  ];
 
   buildInputs = [
     zstd
   ];
 
-  propagatedBuildInputs = with python3Packages; [
+  dependencies = with python3Packages; [
     setuptools-scm
     setuptools
     requests
@@ -84,16 +70,21 @@ python3Packages.buildPythonApplication rec {
     fasteners
   ];
 
-  nativeCheckInputs =
-    with python3Packages;
-    [
-      pytestCheckHook
-    ]
-    ++ bin-programs;
+  pythonImportsCheck = [
+    "portmod"
+    "portmodlib.portmod"
+  ];
+
+  nativeCheckInputs = [
+    python3Packages.pytestCheckHook
+    versionCheckHook
+    writableTmpDirAsHomeHook
+    bubblewrap
+    git
+  ];
 
   preCheck = ''
     cp $out/${python3Packages.python.sitePackages}/portmodlib/portmod*.so portmodlib/
-    export HOME=$(mktemp -d)
   '';
 
   # some test require network access
@@ -111,15 +102,32 @@ python3Packages.buildPythonApplication rec {
     "test_unpack"
   ];
 
-  postInstall = ''
-    makeWrapperArgs+=("--prefix" "GIT_SSL_CAINFO" ":" "${cacert}/etc/ssl/certs/ca-bundle.crt" \
-      "--prefix" "PATH" ":" "${lib.makeBinPath bin-programs}")
-  '';
+  makeWrapperArgs = [
+    "--prefix"
+    "GIT_SSL_CAINFO"
+    ":"
+    "${cacert}/etc/ssl/certs/ca-bundle.crt"
+    "--prefix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [
+      bubblewrap
+      git
+      python3Packages.virtualenv
+      tr-patcher
+      tes3cmd
+      imagemagick
+      openmw
+    ])
+  ];
 
   meta = {
     description = "Mod manager for openMW based on portage";
     homepage = "https://gitlab.com/portmod/portmod";
+    changelog = "https://gitlab.com/portmod/portmod/-/blob/${finalAttrs.src.rev}/CHANGELOG.md";
     license = lib.licenses.gpl3Only;
     maintainers = with lib.maintainers; [ marius851000 ];
+    platforms = lib.platforms.linux;
+    mainProgram = "portmod";
   };
-}
+})
