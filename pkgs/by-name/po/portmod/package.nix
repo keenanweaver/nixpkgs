@@ -1,16 +1,16 @@
 {
   lib,
+  fetchFromGitLab,
   bubblewrap,
   cacert,
   cargo,
-  fetchFromGitLab,
   git,
   imagemagick,
   openmw,
   pkg-config,
   python3Packages,
-  rustc,
   rustPlatform,
+  rustc,
   tes3cmd,
   tr-patcher,
   versionCheckHook,
@@ -67,6 +67,28 @@ python3Packages.buildPythonApplication (finalAttrs: {
     restrictedpython
   ];
 
+  makeWrapperArgs = [
+    "--set-default"
+    "GIT_SSL_CAINFO"
+    "${cacert}/etc/ssl/certs/ca-bundle.crt"
+    "--prefix"
+    "PATH"
+    ":"
+    (lib.makeBinPath [
+      bubblewrap
+      git
+      python3Packages.virtualenv
+      tr-patcher
+      tes3cmd
+      imagemagick
+      openmw
+    ])
+  ];
+
+  postInstall = ''
+    rm $out/bin/portmod-gui
+  '';
+
   pythonImportsCheck = [
     "portmod"
     "portmodlib.portmod"
@@ -98,28 +120,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
     "test_scan_sources"
     "test_unpack"
   ];
-
-  makeWrapperArgs = [
-    "--set-default"
-    "GIT_SSL_CAINFO"
-    "${cacert}/etc/ssl/certs/ca-bundle.crt"
-    "--prefix"
-    "PATH"
-    ":"
-    (lib.makeBinPath [
-      bubblewrap
-      git
-      python3Packages.virtualenv
-      tr-patcher
-      tes3cmd
-      imagemagick
-      openmw
-    ])
-  ];
-
-  postInstall = ''
-    rm $out/bin/portmod-gui
-  '';
 
   meta = {
     description = "Mod manager for openMW based on portage";
