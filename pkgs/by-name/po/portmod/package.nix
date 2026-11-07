@@ -13,6 +13,7 @@
   rustc,
   tes3cmd,
   tr-patcher,
+  unar,
   versionCheckHook,
   writableTmpDirAsHomeHook,
   zstd,
@@ -82,6 +83,7 @@ python3Packages.buildPythonApplication (finalAttrs: {
       tes3cmd
       imagemagick
       openmw
+      unar
     ])
   ];
 
