@@ -18,6 +18,7 @@
   zstd,
 }:
 
+# nixpkgs-update: no auto update
 python3Packages.buildPythonApplication (finalAttrs: {
   pname = "portmod";
   version = "2.9.2";
