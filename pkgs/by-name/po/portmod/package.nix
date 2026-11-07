@@ -6,6 +6,7 @@
   cargo,
   git,
   imagemagick,
+  installShellFiles,
   openmw,
   pkg-config,
   python3Packages,
@@ -45,7 +46,9 @@ python3Packages.buildPythonApplication (finalAttrs: {
 
   nativeBuildInputs = [
     cargo
+    installShellFiles
     pkg-config
+    python3Packages.argcomplete
     rustc
     rustPlatform.cargoSetupHook
   ];
@@ -55,6 +58,7 @@ python3Packages.buildPythonApplication (finalAttrs: {
   ];
 
   dependencies = with python3Packages; [
+    argcomplete
     chardet
     colorama
     fasteners
@@ -89,6 +93,11 @@ python3Packages.buildPythonApplication (finalAttrs: {
 
   postInstall = ''
     rm $out/bin/portmod-gui
+
+    installShellCompletion --cmd portmod \
+      --bash <(register-python-argcomplete portmod --shell bash) \
+      --fish <(register-python-argcomplete portmod --shell fish) \
+      --zsh <(register-python-argcomplete portmod --shell zsh)
   '';
 
   pythonImportsCheck = [
