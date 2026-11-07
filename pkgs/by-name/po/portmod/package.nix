@@ -103,9 +103,8 @@ python3Packages.buildPythonApplication (finalAttrs: {
   ];
 
   makeWrapperArgs = [
-    "--prefix"
+    "--set-default"
     "GIT_SSL_CAINFO"
-    ":"
     "${cacert}/etc/ssl/certs/ca-bundle.crt"
     "--prefix"
     "PATH"
