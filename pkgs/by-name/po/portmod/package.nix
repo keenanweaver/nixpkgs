@@ -38,7 +38,7 @@ python3Packages.buildPythonApplication (finalAttrs: {
   build-system = with python3Packages; [
     setuptools
     setuptools-rust
-    wheel
+    setuptools-scm
   ];
 
   nativeBuildInputs = [
@@ -53,21 +53,17 @@ python3Packages.buildPythonApplication (finalAttrs: {
   ];
 
   dependencies = with python3Packages; [
-    setuptools-scm
-    setuptools
-    requests
     chardet
     colorama
-    deprecated
-    restrictedpython
-    appdirs
+    fasteners
     gitpython
+    packaging
+    patool
     progressbar2
     python-sat
     redbaron
-    patool
-    packaging
-    fasteners
+    requests
+    restrictedpython
   ];
 
   pythonImportsCheck = [
