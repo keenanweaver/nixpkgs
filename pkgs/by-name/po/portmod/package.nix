@@ -120,6 +120,10 @@ python3Packages.buildPythonApplication (finalAttrs: {
     ])
   ];
 
+  postInstall = ''
+    rm $out/bin/portmod-gui
+  '';
+
   meta = {
     description = "Mod manager for openMW based on portage";
     homepage = "https://gitlab.com/portmod/portmod";
