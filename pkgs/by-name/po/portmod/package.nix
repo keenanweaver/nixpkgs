@@ -108,21 +108,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
     cp $out/${python3Packages.python.sitePackages}/portmodlib/portmod*.so portmodlib/
   '';
 
-  # some test require network access
-  disabledTests = [
-    "test_masters_esp"
-    "test_logging"
-    "test_execute_network_permissions"
-    "test_execute_permissions_bleed"
-    "test_git"
-    "test_sync"
-    "test_manifest"
-    "test_add_repo"
-    "test_init_prefix_interactive"
-    "test_scan_sources"
-    "test_unpack"
-  ];
-
   meta = {
     description = "Mod manager for openMW based on portage";
     homepage = "https://gitlab.com/portmod/portmod";
