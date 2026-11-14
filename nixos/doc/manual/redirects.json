@@ -197,6 +197,21 @@
   "module-services-rnsd-quickstart": [
     "index.html#module-services-rnsd-quickstart"
   ],
+  "module-services-rom-patcher-js": [
+    "index.html#module-services-rom-patcher-js"
+  ],
+  "module-services-rom-patcher-js-caddy": [
+    "index.html#module-services-rom-patcher-js-caddy"
+  ],
+  "module-services-rom-patcher-js-embed": [
+    "index.html#module-services-rom-patcher-js-embed"
+  ],
+  "module-services-rom-patcher-js-http": [
+    "index.html#module-services-rom-patcher-js-http"
+  ],
+  "module-services-rom-patcher-js-nginx": [
+    "index.html#module-services-rom-patcher-js-nginx"
+  ],
   "module-services-tandoor-recipes-migrating-media-option-move": [
     "index.html#module-services-tandoor-recipes-migrating-media-option-move",
     "index.html#module-services-tandoor-recipes-migrating-media-option-1"

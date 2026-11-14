@@ -3,6 +3,7 @@
   fetchFromGitHub,
   buildNpmPackage,
   nix-update-script,
+  nixosTests,
   runCommand,
 }:
 
@@ -42,20 +43,23 @@ buildNpmPackage (finalAttrs: {
   dontNpmBuild = true;
 
   passthru = {
-    tests.roundtrip =
-      runCommand "rom-patcher-js-roundtrip" { nativeBuildInputs = [ finalAttrs.finalPackage ]; }
-        ''
-          head -c 65536 /dev/urandom > original.bin
-          cp original.bin modified.bin
-          printf 'nixpkgs' | dd of=modified.bin bs=1 seek=4096 conv=notrunc
-          for format in aps bps ips ppf rup ups; do
-            RomPatcher create original.bin modified.bin --format $format
-            RomPatcher patch original.bin modified.$format
-            cmp 'original (patched).bin' modified.bin
-            rm 'original (patched).bin'
-          done
-          touch $out
-        '';
+    tests = {
+      inherit (nixosTests) rom-patcher-js;
+      roundtrip =
+        runCommand "rom-patcher-js-roundtrip" { nativeBuildInputs = [ finalAttrs.finalPackage ]; }
+          ''
+            head -c 65536 /dev/urandom > original.bin
+            cp original.bin modified.bin
+            printf 'nixpkgs' | dd of=modified.bin bs=1 seek=4096 conv=notrunc
+            for format in aps bps ips ppf rup ups; do
+              RomPatcher create original.bin modified.bin --format $format
+              RomPatcher patch original.bin modified.$format
+              cmp 'original (patched).bin' modified.bin
+              rm 'original (patched).bin'
+            done
+            touch $out
+          '';
+    };
     updateScript = nix-update-script { extraArgs = [ "--generate-lockfile" ]; };
   };
 

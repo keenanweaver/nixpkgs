@@ -1634,6 +1634,7 @@ in
   rmfakecloud = runTest ./rmfakecloud.nix;
   rnsd = runTest ./networking/rnsd.nix;
   robustirc-bridge = runTest ./robustirc-bridge.nix;
+  rom-patcher-js = runTest ./rom-patcher-js.nix;
   romm = runTest ./romm.nix;
   rosec = runTest ./rosec.nix;
   rosenpass = runTest ./rosenpass.nix;
