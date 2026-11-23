@@ -14,6 +14,7 @@
   physfs,
   pkg-config,
   scons,
+  sdl_gamecontrollerdb,
   unstableGitUpdater,
   withSC55Music ? true,
 }:
@@ -60,6 +61,8 @@ stdenv.mkDerivation (finalAttrs: {
       install -Dm644 -t $out/share/metainfo \
         $game/io.github.dxx_rebirth.dxx_rebirth.$game.metainfo.xml
       install -Dm644 -t $out/share/doc/$game $game/*.txt $game/*.ini
+      mkdir -p $out/share/games/$game
+      ln -s ${sdl_gamecontrollerdb}/share/gamecontrollerdb.txt $out/share/games/$game/
     done
     install -Dm644 contrib/packaging/linux/descent.svg \
       $out/share/icons/hicolor/scalable/apps/d1x-rebirth.svg
