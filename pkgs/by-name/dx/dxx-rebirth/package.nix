@@ -51,6 +51,17 @@ stdenv.mkDerivation (finalAttrs: {
   checkInputs = [ boost ];
 
   postInstall = ''
+    for game in d1x-rebirth d2x-rebirth; do
+      install -Dm644 $game/$game.desktop \
+        $out/share/applications/io.github.dxx_rebirth.dxx_rebirth.$game.desktop
+      install -Dm644 -t $out/share/metainfo \
+        $game/io.github.dxx_rebirth.dxx_rebirth.$game.metainfo.xml
+      install -Dm644 -t $out/share/doc/$game $game/*.txt $game/*.ini
+    done
+    install -Dm644 contrib/packaging/linux/descent.svg \
+      $out/share/icons/hicolor/scalable/apps/d1x-rebirth.svg
+    install -Dm644 contrib/packaging/linux/descent2.svg \
+      $out/share/icons/hicolor/scalable/apps/d2x-rebirth.svg
     install -Dm644 ${finalAttrs.passthru.music} $out/share/games/dxx-rebirth/${finalAttrs.passthru.music.name}
     install -Dm644 -t $out/share/doc/dxx-rebirth *.txt
   '';
