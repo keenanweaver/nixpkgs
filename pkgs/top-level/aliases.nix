@@ -717,6 +717,8 @@ mapAliases {
   cwe-client-cli = throw "cwe-client-cli has been removed because it is archived and has unclear licensing"; # Added 2026-01-10
   cwiid = throw "'cwiid' was removed because it depended on the deprecated GTK2 engine."; # Added 2026-07-22
   cyber = throw "cyber has been removed, as it does not build with supported Zig versions"; # Added 2025-08-09
+  d1x-rebirth-full = throw "'d1x-rebirth-full' has been removed as it required a manually downloaded GOG installer; use 'dxx-rebirth' with '-hogdir' pointing at the game data"; # Added 2026-11-23
+  d2x-rebirth-full = throw "'d2x-rebirth-full' has been removed as it required a manually downloaded GOG installer; use 'dxx-rebirth' with '-hogdir' pointing at the game data"; # Added 2026-11-23
   daed = throw "daed has been removed, as it has been unmaintained and archived upstream"; # Added 2026-09-24
   dale = throw "dale has been removed, as it does not build with supported LLVM versions"; # Added 2025-08-10
   dankcalendar = warnAlias "'dankcalendar' has been renamed to 'dux-calendar'" dux-calendar; # Added 2026-10-20
@@ -739,6 +741,8 @@ mapAliases {
   dejavu_fontsEnv = throw "'dejavu_fontsEnv' has been removed as its content is identical to 'dejavu_fonts'."; # Added 2026-09-25
   deltachat-cursed = throw "'deltachat-cursed' has been renamed to/replaced by 'arcanechat-tui'"; # Converted to throw 2025-10-27
   deltatouch = throw "'deltatouch' has been removed as it depended on qt5 webengine which reached EOL"; # Added 2026-04-25
+  descent1-assets = throw "'descent1-assets' has been removed as it required a manually downloaded GOG installer; use 'dxx-rebirth' with '-hogdir' pointing at the game data"; # Added 2026-11-23
+  descent2-assets = throw "'descent2-assets' has been removed as it required a manually downloaded GOG installer; use 'dxx-rebirth' with '-hogdir' pointing at the game data"; # Added 2026-11-23
   desktop-postflop = throw "'desktop-postflop' has been removed as it has been unmaintained upstream since October 2023 and depended on webkitgtk 4.0"; # Added 2026-06-07
   devdocs-desktop = throw "'devdocs-desktop' has been removed as it is unmaintained upstream and vendors insecure dependencies"; # Added 2025-06-11
   devmem2 = throw "'devmem2' has been removed due to being broken and lack of maintenance. Consider using the devmem command from 'busybox' or 'toybox'."; # Added 2026-07-24

@@ -9020,16 +9020,6 @@ with pkgs;
 
   dfhack = dwarf-fortress-packages.dwarf-fortress-full;
 
-  inherit (callPackages ../by-name/dx/dxx-rebirth/assets.nix { })
-    descent1-assets
-    descent2-assets
-    ;
-
-  inherit (callPackages ../by-name/dx/dxx-rebirth/full.nix { })
-    d1x-rebirth-full
-    d2x-rebirth-full
-    ;
-
   factorio-experimental = factorio.override {
     releaseType = "alpha";
     experimental = true;
