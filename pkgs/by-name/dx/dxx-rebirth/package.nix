@@ -112,7 +112,12 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     description = "Source port of the Descent 1 and 2 engines";
     homepage = "https://www.dxx-rebirth.com/";
-    license = lib.licenses.gpl3;
+    license = lib.licenses.mkLicense {
+      free = false;
+      fullName = "DXX-Rebirth License";
+      shortName = "dxx-rebirth";
+      url = "https://github.com/dxx-rebirth/dxx-rebirth/blob/master/COPYING.txt";
+    };
     maintainers = with lib.maintainers; [ peterhoeg ];
     platforms = lib.platforms.linux;
   };
