@@ -16,10 +16,16 @@ buildDotnetModule rec {
     hash = "sha256-zduNWIQi+ItNSh9RfRfY0giIw/tMQIMRh9woUzQ5pJw=";
   };
 
+  postPatch = ''
+    rm global.json
+    substituteInPlace DepotDownloader/DepotDownloader.csproj \
+      --replace-fail '<TargetFramework>net9.0</' '<TargetFramework>net10.0</'
+  '';
+
   projectFile = "DepotDownloader.sln";
   nugetDeps = ./deps.json;
-  dotnet-sdk = dotnetCorePackages.sdk_9_0;
-  dotnet-runtime = dotnetCorePackages.runtime_9_0;
+  dotnet-sdk = dotnetCorePackages.sdk_10_0;
+  dotnet-runtime = dotnetCorePackages.runtime_10_0;
 
   passthru.updateScript = ./update.sh;
 
